@@ -13,7 +13,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   src = lib.cleanSource ./.;
 
-  cargoHash = "sha256-IjiSSVaz0XxVmgBaaLw841T+UefeCxQe80WUa51EOQw=";
+  cargoHash = "sha256-NGywcF+BwM+3II+uDqkcdCAB0Bryc5NjvqvFQGzoPYg=";
 
   nativeBuildInputs = [ clippy ];
   preBuild = "cargo clippy -- -W clippy::pedantic -D warnings";
