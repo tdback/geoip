@@ -11,6 +11,10 @@
       eachSystem = inputs.nixpkgs.lib.genAttrs systems;
     in
     {
+      packages = eachSystem (system: {
+        default = inputs.nixpkgs.legacyPackages.${system}.callPackage ./package.nix { };
+      });
+
       devShells = eachSystem (
         system:
         let
