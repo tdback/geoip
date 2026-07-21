@@ -1,6 +1,10 @@
+mod response;
+
 use domain::base::name::UncertainName;
 use domain::resolv::StubResolver;
 use std::str::FromStr;
+
+const API: &str = "http://ip-api.com/json";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -14,11 +18,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let addrs: Vec<_> = answer.iter().filter(|addr| addr.is_ipv4()).collect();
     if addrs.is_empty() {
-        println!("no addresses found");
-    } else {
-        for addr in addrs {
-            println!("{addr}");
-        }
+        eprintln!("no addresses found for {}", answer.canonical_name());
+        std::process::exit(1);
+    }
+
+    for addr in addrs {
+        let url = format!("{}/{}", API, addr);
+        let req = reqwest::get(url).await?.text().await?;
+        let res: response::Response = serde_json::from_str(&req)?;
+        println!("{res}");
     }
 
     Ok(())
