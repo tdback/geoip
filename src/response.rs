@@ -54,7 +54,7 @@ impl fmt::Display for Response {
             Country   => {} ({})\n\
             Region    => {} ({})\n\
             ISP       => {}\n\
-            AS        => {} ({})",
+            AS        => {} ({})\n",
             self.query,
             display_opt(self.lat.as_ref()),
             display_opt(self.lon.as_ref()),
